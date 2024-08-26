@@ -10,9 +10,7 @@ function App() {
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80" />
         <div className="absolute inset-0 backdrop-blur-sm" />
       </div>
-
       <Sidebar />
-
       <div className="relative z-10 flex-1 overflow-y-auto">
         <Routes>
           <Route path="/" element={<Users />} />
