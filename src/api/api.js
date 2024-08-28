@@ -1,7 +1,8 @@
 
 import axios from 'axios';
+import { BACKEND_URL } from '../utils/config';
 
-const API_URL = 'http://localhost:8080/api';
+const API_URL = `${BACKEND_URL}` 
 
 export const fetchUsers = (page, filters) => {
   return axios.get(`${API_URL}/users`, {

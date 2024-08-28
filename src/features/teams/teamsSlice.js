@@ -3,7 +3,7 @@ import axios from 'axios';
 import { fetchTeamById } from '../../api/api';
 import { BACKEND_URL } from '../../utils/config';
 
-const API_URL = BACKEND_URL
+const API_URL = `${BACKEND_URL}/teams` ;
 
 // Initial state for teams
 const initialState = {

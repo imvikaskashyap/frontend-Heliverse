@@ -1,1 +1,1 @@
-export const BACKEND_URL = `https://localhost:3000/api/`;
+export const BACKEND_URL = `https://backend-heliverse-assignment.onrender.com/api`;
