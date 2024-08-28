@@ -1,48 +1,103 @@
-import { CirclePlus, Search } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search } from "lucide-react";
 
-function FilterSearch() {
+function FilterSearch({ onFilterChange, totalUsers, onAddTeamClick }) {
+  const [search, setSearch] = useState("");
+  const [gender, setGender] = useState("");
+  const [domain, setDomain] = useState("");
+  const [available, setAvailable] = useState("");
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleFilterApply = () => {
+    onFilterChange({ search, gender, domain, available });
+  };
+
+ 
+  useEffect(() => {
+    handleFilterApply();
+  }, [search]);
+
   return (
-    <div>
-      <div className="sm:flex sm:items-center sm:justify-between">
-        <div>
-          <div className="flex items-center gap-x-3">
-            <h2 className="text-lg font-medium text-gray-100">Total Users:</h2>
-            <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full">240 </span>
-          </div>
+    <div className="p-4 bg-gray-800 rounded-lg shadow-lg">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-x-4">
+          <h2 className="text-xl font-semibold text-gray-100">Total Users:</h2>
+          <span className="px-3 py-1 text-xs font-medium text-blue-600 bg-blue-100 rounded-full">{totalUsers}</span>
         </div>
 
-        <div className="flex items-center mt-4 gap-x-3">
-          <button className="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600">
-          <CirclePlus className="w-5 h-5"/>
-            <span>Add vendor</span>
-
+        <div className="mt-4 sm:mt-0 flex items-center gap-x-3">
+          <button
+            onClick={onAddTeamClick}
+            className="flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors duration-200"
+          >
+            Add Team
           </button>
         </div>
       </div>
 
-      <div className="mt-6 md:flex md:items-center md:justify-between">
-        <div className="inline-flex overflow-hidden bg-gray-900 border divide-x rounded-lg rtl:flex-row-reverse border-gray-700 divide-gray-700">
-          <button className="px-5 py-2 text-xs font-medium text-gray-300 transition-colors duration-200 bg-gray-800 sm:text-sm">
-            View all
-          </button>
-          <button className="px-5 py-2 text-xs font-medium text-gray-300 transition-colors duration-200 sm:text-sm hover:bg-gray-800">
-            Monitored
-          </button>
-          <button className="px-5 py-2 text-xs font-medium text-gray-300 transition-colors duration-200 sm:text-sm hover:bg-gray-800">
-            Unmonitored
-          </button>
-        </div>
-
-        <div className="relative flex items-center mt-4 md:mt-0">
-          <span className="absolute left-3">
-            <Search className="text-gray-400 w-5 h-5" />
+      <div className="mt-6 flex flex-col md:flex-row md:items-center md:gap-4">
+        <div className="relative flex items-center w-full md:w-1/4">
+          <span className="absolute left-3 text-gray-400">
+            <Search className="w-5 h-5" />
           </span>
-
           <input
             type="text"
-            placeholder="Search"
-            className="block w-full py-1.5 pr-5 pl-10 text-gray-300 bg-gray-900 border border-gray-700 rounded-lg rtl:pl-10 rtl:pr-5 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+            placeholder="Search by name"
+            value={search}
+            onChange={handleSearchChange}
+            className="block w-full py-2 pl-10 pr-4 text-gray-300 bg-gray-900 border border-gray-700 rounded-lg placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           />
+        </div>
+
+        <div className="flex flex-col md:flex-row md:gap-4 w-full mt-4 md:mt-0">
+          <div className="w-full md:w-1/4">
+            <label className="block text-gray-300 font-medium">Gender:</label>
+            <select
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              className="block w-full mt-2 px-3 py-2 text-gray-300 bg-gray-900 border border-gray-700 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            >
+              <option value="">All</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+          <div className="w-full md:w-1/4">
+            <label className="block text-gray-300 font-medium">Domain:</label>
+            <input
+              type="text"
+              value={domain}
+              onChange={(e) => setDomain(e.target.value)}
+              placeholder="Enter domain"
+              className="block w-full mt-2 px-3 py-2 text-gray-300 bg-gray-900 border border-gray-700 rounded-lg placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="w-full md:w-1/4">
+            <label className="block text-gray-300 font-medium">Available:</label>
+            <select
+              value={available}
+              onChange={(e) => setAvailable(e.target.value)}
+              className="block w-full mt-2 px-3 py-2 text-gray-300 bg-gray-900 border border-gray-700 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            >
+              <option value="">All</option>
+              <option value="true">Available</option>
+              <option value="false">Not Available</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="w-full md:w-auto mt-4 md:mt-0">
+          <button
+            onClick={handleFilterApply}
+            className="px-5 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors duration-200"
+          >
+            Apply Filters
+          </button>
         </div>
       </div>
     </div>
