@@ -4,6 +4,7 @@ import Users from "./pages/Users";
 import Teams from "./pages/Teams";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import CreateUser from "./pages/CreateUser";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Users />} />
           <Route path="/teams" element={<Teams />} />
+          <Route path="/create-user" element={<CreateUser />} />
         </Routes>
       </div>
       <ToastContainer />

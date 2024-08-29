@@ -6,6 +6,7 @@ import Pagination from "../components/Pagination";
 import EditUserModal from "../components/EditUserModal";
 import { toast } from "react-toastify";
 import TeamCreationModal from "../components/TeamCreationModal";
+import { useNavigate } from "react-router-dom";
 
 
 const Users = () => {
@@ -19,6 +20,9 @@ const Users = () => {
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState(new Set());
+
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(fetchUsersAsync({ page: currentPage, filters }));
@@ -91,6 +95,11 @@ const Users = () => {
     dispatch(fetchUsersAsync({ page: currentPage, filters }));
   };
 
+  const handleCreateUserClick = () => {
+    
+    navigate("/create-user");
+  };
+
   return (
     <div className="overflow-hidden flex mt-20 justify-center">
       <section className="container px-4 mx-auto">
@@ -99,6 +108,16 @@ const Users = () => {
           totalUsers={totalUsers} 
           onAddTeamClick={handleAddTeamClick} 
         />
+
+<div className="mt-6 flex justify-end">
+          <button
+            onClick={handleCreateUserClick}
+            className="px-5 py-2 text-sm font-medium text-white bg-green-500 rounded-lg hover:bg-green-600 transition-colors duration-200"
+          >
+            Create User
+          </button>
+        </div>
+
 
         {loading ? (
           <p>Loading...</p>

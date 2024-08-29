@@ -1,24 +1,21 @@
+// teamsSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { fetchTeamById } from '../../api/api';
-import { BACKEND_URL } from '../../utils/config';
-
-const API_URL = `${BACKEND_URL}/teams` ;
+import { fetchTeams, fetchTeamById, createTeam } from '../../api/api'; 
 
 // Initial state for teams
 const initialState = {
   teams: [],
-  selectedTeam: null, 
+  selectedTeam: null,
   loading: false,
   error: null,
 };
 
-// Async thunk for fetching teams
+// Async thunk for fetching all teams
 export const fetchTeamsAsync = createAsyncThunk(
   'teams/fetchTeams',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(API_URL);
+      const response = await fetchTeams(); 
       return response.data.teams;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -31,28 +28,24 @@ export const fetchTeamByIdAsync = createAsyncThunk(
   'teams/fetchTeamById',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await fetchTeamById(id);
-      console.log('Fetched team details:', response.data); 
-      return response.data; 
+      const response = await fetchTeamById(id); 
+      return response.data;
     } catch (error) {
-      console.error('Failed to fetch team details:', error);
-      return rejectWithValue(error.response.data);
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
     }
   }
 );
 
-
-
-// Async thunk for creating a team with users
+// Async thunk for creating a new team with users
 export const createTeamAsync = createAsyncThunk(
   'teams/createTeam',
   async ({ teamName, teamDescription, userIds }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(API_URL, {
-        team_name: teamName,
-        team_description: teamDescription,
-        team_members: userIds,
-      });
+      const response = await createTeam({ teamName, teamDescription, userIds }); // Use imported API function
       return response.data.team;
     } catch (error) {
       return rejectWithValue(error.response.data);
