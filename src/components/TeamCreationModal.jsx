@@ -26,8 +26,15 @@ const TeamCreationModal = ({ onClose, users, onTeamCreated }) => {
       toast.error('Please enter a team name.');
       return;
     }
-
-    const userIds = Array.from(selectedUsers);
+  
+    const userIds = Array.from(selectedUsers); 
+  
+    console.log('Creating team with:', {
+      teamName,
+      teamDescription,
+      userIds,
+    });
+  
     dispatch(createTeamAsync({
       teamName,
       teamDescription,
@@ -38,10 +45,12 @@ const TeamCreationModal = ({ onClose, users, onTeamCreated }) => {
         toast.success('Team successfully created!');
         onTeamCreated(); 
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Failed to create team:', error);
         toast.error('Failed to create team.');
       });
   };
+  
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">

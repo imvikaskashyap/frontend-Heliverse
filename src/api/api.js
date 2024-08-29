@@ -42,11 +42,11 @@ export const fetchTeams = () => {
   return axios.get(`${API_URL}/teams`);
 };
 // Create team
-export const createTeam = ({ teamName, teamDescription, teamMembers }) => {
+export const createTeam = ({ teamName, teamDescription, userIds }) => {
   return axios.post(`${API_URL}/teams`, {
     team_name: teamName,
     team_description: teamDescription,
-    team_members: teamMembers,
+    team_members: userIds,
   });
 };
 
